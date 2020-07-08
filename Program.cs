@@ -28,30 +28,33 @@ namespace Botgram
 
             Thread.Sleep(10000);
  
-            driver.Navigate().GoToUrl(targetInstagramUrl);
-
             var count = 0;
 
             while (true)
             {
+                driver.Navigate().GoToUrl(targetInstagramUrl);
+
                 if (count >= words.Length) {
                     count = 0;
                 }
-                Thread.Sleep(2000);
+                Thread.Sleep(5000);
 
-                driver.FindElement(By.XPath("//textarea[@aria-label='Add a comment…']"))
+                var inputComment = driver.FindElement(By.ClassName("Ypffh"));
+                if (inputComment == null || !inputComment.Displayed || !inputComment.Enabled)
+                {
+                    continue;
+                }
+                inputComment.Click();
+                
+                
+                inputComment = driver.FindElement(By.ClassName("Ypffh"));
+                inputComment.SendKeys(words[count]);
+                
+                Thread.Sleep(2000);
+                
+                driver.FindElement(By.XPath("//button[@type='submit']"))
                     .Click();
-                    
-                Thread.Sleep(2000);
- 
-                driver.FindElement(By.XPath("//textarea[@aria-label='Add a comment…']"))
-                    .SendKeys(words[count]);
-                
-                Thread.Sleep(2000);
-                var commentButton = driver.FindElement(By.XPath("//button[@type='submit']"));
-                commentButton.Click();
                 count++;
-                
                 
                 Thread.Sleep(61000);
             }

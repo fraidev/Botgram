@@ -31,30 +31,29 @@ async function main() {
 
     await driver.sleep(10000)
 
-    await driver.get(targetInstagramUrl);
 
     let count = 0;
 
     while (true) {
+        await driver.get(targetInstagramUrl);
 
         if (count >= words.length) {
             count = 0;
         }
 
-        await driver.sleep(2000)
-        const commentField1 = await driver.wait(until.elementLocated(webdriver.By.xpath("//textarea[@aria-label='Add a comment…']")), 20000);
-        commentField1.click();
-        await driver.sleep(2000)
+        await driver.sleep(5000)
+        const inputComment = await driver.findElement(webdriver.By.className("Ypffh"))
 
-        const commentField2 = await driver.wait(until.elementLocated(webdriver.By.xpath("//textarea[@aria-label='Add a comment…']")), 20000);
-        commentField2.sendKeys(words[count]);
+        if (inputComment == null || !inputComment.Displayed || !inputComment.Enabled) {
+            continue;
+        }
+        inputComment.click();
 
         await driver.sleep(2000)
-        const commentButton = await driver.wait(until.elementLocated(webdriver.By.xpath("//button[@type='submit']")), 20000);
-        await commentButton.click();
+        driver.findElement(webdriver.By.className("Ypffh")).sendKeys(words[count]);
+        await driver.sleep(2000)
+        await driver.findElement(webdriver.By.xpath("//button[@type='submit']")).click();
         count++;
-
-
         await driver.sleep(61000)
     }
 }
