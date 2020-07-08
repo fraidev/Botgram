@@ -45,6 +45,7 @@ async function main() {
         const inputComment = await driver.findElement(webdriver.By.className("Ypffh"))
 
         if (inputComment == null || !inputComment.Displayed || !inputComment.Enabled) {
+            await driver.sleep(300000)
             continue;
         }
         inputComment.click();

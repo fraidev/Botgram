@@ -42,6 +42,7 @@ namespace Botgram
                 var inputComment = driver.FindElement(By.ClassName("Ypffh"));
                 if (inputComment == null || !inputComment.Displayed || !inputComment.Enabled)
                 {
+                    Thread.Sleep(300000);
                     continue;
                 }
                 inputComment.Click();
